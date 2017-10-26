@@ -8,7 +8,15 @@ import os, sys, subprocess, tarfile, time, errno, csv
 par_url = 'https://www.ncei.noaa.gov/data/global-hourly/archive/'
 file_links = list()
 
+# Variables for provenance
+files_total = 0
+files_retained = 0
+mand_col_total = 29
+mand_col_retained = 13
 
+
+# Function go throught hte HTML of the webpage and creates a list of the link for the
+# files present in that webpage.
 def scrape_webpage():
     try:
         soup = bs(urlopen(par_url))
@@ -26,7 +34,7 @@ def scrape_webpage():
 
 
 def download(year):
-    # Downloading files now
+    # Downloading files now for the year provided
     try:
         file_url = file_links[year]
         f = urlopen(file_url)
@@ -48,6 +56,7 @@ def download(year):
         print "URL Error:", e.reason, file_url
 
 
+# This function cleans the data by only keeping the required mandatory columns
 def clean_data (src_file):
     with open(src_file, "rb") as source:
         rdr = csv.reader( source )
@@ -70,6 +79,7 @@ def clean_data (src_file):
                                r[14].split(",")[0], r[15].split(",")[0]) )
 
 
+# Function creates the directory
 def ensure_dir(directory):
     #directory = os.path.dirname(file_path)
     try:
@@ -116,12 +126,20 @@ def main(argv):
 
 
         for filename in os.listdir(directory[:-1]):
+            files_total = files_total + 1
             f = os.path.join(directory, filename)
             if filename in us_stations:
                 clean_data(f)
+                files_retained = files_retained + 1
 
             os.remove(f)
 
+    # Storing provenance
+    with open("provenance.txt", "wb"):
+        f.writelines("Total files downloaded : " + files_total)
+        f.writelines("Files retained : " + files_retained)
+        f.writelines("Total mandatory columns : " + mand_col_total)
+        f.writelines("Mandatory columns retained : " + mand_col_retained)
 
 
 if __name__ == "__main__":
