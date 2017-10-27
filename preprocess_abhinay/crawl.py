@@ -2,7 +2,7 @@
 
 from BeautifulSoup import BeautifulSoup as bs
 from urllib2 import urlopen, HTTPError, URLError
-import os, sys, subprocess, tarfile, time, errno, csv
+import os, sys, tarfile, time, errno, csv, shutil
 
 
 par_url = 'https://www.ncei.noaa.gov/data/global-hourly/archive/'
@@ -139,6 +139,8 @@ def main(argv):
         f.writelines("Files retained : " + str(files_retained) + "\n")
         f.writelines("Total mandatory columns : " + str(mand_col_total) + "\n")
         f.writelines("Mandatory columns retained : " + str(mand_col_retained) + "\n")
+
+    shutil.rmtree("zips/")
 
 
 if __name__ == "__main__":
