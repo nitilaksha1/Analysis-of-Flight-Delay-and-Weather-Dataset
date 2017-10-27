@@ -57,24 +57,23 @@ def download(year):
 
 
 # This function cleans the data by only keeping the required mandatory columns
-def clean_data (src_file):
+def clean_data(src_file):
     with open(src_file, "rb") as source:
-        rdr = csv.reader( source )
+        rdr = csv.reader(source)
         next(source)
 
         dst_file = src_file[:-4] + "n.csv"
         with open(dst_file,"wb") as result:
             wtr = csv.writer( result )
-            wtr.writerow(("STN_ID", "DATE", "TIME", "LAT", "LONG", "ELEVATION", "STN_NAME",
+            wtr.writerow(("STN_ID", "DATE", "TIME", "LAT", "LONG", "ELEVATION",
                           "WND_SPD", "CIG", "VIS", "TMP", "DEW", "SLP"))
             for r in rdr:
                 wind_speed = r[10].split(",")[4]
 
-                date = r[1].split("T")[0]
+                date = (r[1].split("T")[0]).split("-")
                 time = (r[1].split("T")[1]).split(":")
 
-                time_n = time[0] + "-" + time[1] + "-" + time[2]
-                wtr.writerow( (r[0], date, time_n, r[3], r[4], r[5], r[6], wind_speed,
+                wtr.writerow( (r[0], date[0]+date[1]+date[2], time[0]+time[1], r[3], r[4], r[5], wind_speed,
                                r[11].split(",")[0], r[12].split(",")[0], r[13].split(",")[0],
                                r[14].split(",")[0], r[15].split(",")[0]) )
 
@@ -112,10 +111,10 @@ def untar(file_name):
 def main(argv):
     start_year = int(sys.argv[1])
     end_year = int(sys.argv[2])
-
+    us_stations = list()
+    global files_total, files_retained, mand_col_total, mand_col_retained
     scrape_webpage()
 
-    us_stations = list()
     with open("us-stations.txt") as f:
         for line in f:
             us_stations.append(line.rstrip('\n'))
@@ -135,11 +134,11 @@ def main(argv):
             os.remove(f)
 
     # Storing provenance
-    with open("provenance.txt", "wb"):
-        f.writelines("Total files downloaded : " + files_total)
-        f.writelines("Files retained : " + files_retained)
-        f.writelines("Total mandatory columns : " + mand_col_total)
-        f.writelines("Mandatory columns retained : " + mand_col_retained)
+    with open("provenance.txt", "wb") as f:
+        f.writelines("Total files downloaded : " + str(files_total) + "\n")
+        f.writelines("Files retained : " + str(files_retained) + "\n")
+        f.writelines("Total mandatory columns : " + str(mand_col_total) + "\n")
+        f.writelines("Mandatory columns retained : " + str(mand_col_retained) + "\n")
 
 
 if __name__ == "__main__":
