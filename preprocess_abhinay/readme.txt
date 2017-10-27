@@ -13,3 +13,8 @@ python crawl.py 1920 1930
 
 airportsUS.csv contains the latitude and longitude mapping of US airports. This was created by script airport.py (which u don't need to run again).
 
+...............
+
+air_clean.py
+
+It takes airportsUS.csv file as an input. Place this python in some directory which contains "flights/" directory. Flights dir will have all the flight delay data.
