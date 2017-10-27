@@ -1,0 +1,25 @@
+inputFile: /home/nayanambuj/Desktop/projectWork/ambujLearning/bigDataAnalytics/fall2017/projects/project1/Data/Flight/test/flightTest.csv
+quorum: "127.0.0.1"
+port: "2181"
+tableName: flight_data
+rowKey: FL_DATE:DEP_TIME:AIRLINE_ID:FL_NUM
+rowValues:
+    - qualifier   : flight_main:ORIGIN
+      value       : ORIGIN
+    - qualifier   : flight_main:CITY_NAME
+      value       : CITY_NAME
+    - qualifier   : flight_main:LAT
+      value       : LAT
+    - qualifier   : flight_main:LONG
+      value       : LONG
+    - qualifier   : flight_main:DEP_DELAY_TOTAL
+      value       : DEP_DELAY_TOTAL
+    - qualifier   : flight_main:DEP_DEL15
+      value       : DEP_DEL15
+    - qualifier   : flight_main:W_CANCELLED
+      value       : W_CANCELLED
+    - qualifier   : flight_main:DIVERTED
+      value       : DIVERTED
+    - qualifier   : flight_main:WEATHER_DELAY
+      value       : WEATHER_DELAY
+
