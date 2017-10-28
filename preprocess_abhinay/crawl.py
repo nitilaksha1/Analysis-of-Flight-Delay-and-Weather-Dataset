@@ -72,13 +72,13 @@ def clean_data(src_file):
 
 
             for r in rdr:
-                wind_speed = r[10].split(",")[4]
+                wind_speed = r[10].split(",")[3]
 
                 temp = r[1].split("T")
                 date = temp[0].split("-")
 
-
-                time = temp[1][:-3]
+                time_t = temp[1].split(":")
+                time = str(time_t[0]) + str(time[1])
 
                 wtr.writerow( (r[0], date[0]+date[1]+date[2], date[0], date[1], date[2], time, r[3], r[4],
                                r[5], wind_speed, r[11].split(",")[0], r[12].split(",")[0], r[13].split(",")[0],
@@ -148,7 +148,7 @@ def main(argv):
         f.writelines("Total mandatory columns : " + str(mand_col_total) + "\n")
         f.writelines("Mandatory columns retained : " + str(mand_col_retained) + "\n")
 
-    shutil.rmtree("zips/")
+    #shutil.rmtree("zips/")
 
 
 if __name__ == "__main__":
