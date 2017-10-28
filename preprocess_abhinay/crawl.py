@@ -1,6 +1,7 @@
 # Author: Abhinay Agrawal
 
-from BeautifulSoup import BeautifulSoup as bs
+#from BeautifulSoup import BeautifulSoup as bs
+from bs4 import BeautifulSoup as bs
 from urllib2 import urlopen, HTTPError, URLError
 import os, sys, tarfile, time, errno, csv, shutil
 
@@ -113,6 +114,7 @@ def main(argv):
     end_year = int(sys.argv[2])
     us_stations = list()
     global files_total, files_retained, mand_col_total, mand_col_retained
+
     scrape_webpage()
 
     with open("us-stations.txt") as f:
