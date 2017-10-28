@@ -1,3 +1,5 @@
+# Author: Abhinay Agrawal
+
 import csv, os
 
 dict = {}
@@ -56,7 +58,7 @@ for fn in os.listdir(par_dir):
                 if w_delay == '':
                     w_delay = 0
 
-                wtr.writerow( (date, r[1], r[2], r[4], r[5], lat, lon, dep_time, dep_delay, dep_delay15,
+                wtr.writerow( (date, r[1], r[2], r[4], r[5], lat, lon, dep_time + "T", dep_delay, dep_delay15,
                                r[15], r[17], w_delay) )
 
     os.remove(src_file)
