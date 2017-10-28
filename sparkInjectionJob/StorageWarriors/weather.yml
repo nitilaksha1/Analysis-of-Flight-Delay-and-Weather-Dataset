@@ -2,7 +2,7 @@ inputFile: /home/nayanambuj/Desktop/projectWork/ambujLearning/bigDataAnalytics/f
 quorum: "127.0.0.1"
 port: "2181"
 tableName: weather_data
-rowKey: STN_ID:DATE:TIME
+  rowKey: DATE:TIME:STN_ID
 rowValues  :
     - qualifier   : weather_main:LAT
       value       : LAT
@@ -10,8 +10,6 @@ rowValues  :
       value       : LONG
     - qualifier   : weather_main:ELEVATION
       value       : ELEVATION
-    - qualifier   : weather_main:STN_NAME
-      value       : STN_NAME
     - qualifier   : weather_main:CIG
       value       : CIG
     - qualifier   : weather_main:VIS
@@ -24,6 +22,4 @@ rowValues  :
       value       : SLP
     - qualifier   : weather_main:WND_SPD
       value       : WND_SPD
-    - qualifier   : weather_main:WND_DIR
-      value       : WND_DIR
 

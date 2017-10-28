@@ -52,7 +52,7 @@ public class WeatherDataProcessor implements DataProcessor, Serializable {
                         String[] rowKeys =  ROW_KEY_B.value().split(":");
                         String key = "";
                         for(String k : rowKeys) {
-                            key = key + data.getAs(k) + ":";
+                            key = key + data.getAs(k);
                         }
                         key = key.substring(0, key.length() - 1);
                         Put put = new Put(Bytes.toBytes(key));
@@ -68,7 +68,6 @@ public class WeatherDataProcessor implements DataProcessor, Serializable {
                     }
                 });
 
-        System.out.printf("\nhbasePuts.partitions().size()= %d", hbasePuts.partitions().size());
         long countOfRows = hbasePuts.count();
 
         System.out.printf("\nNumber of rows to be inserted= %d", countOfRows);

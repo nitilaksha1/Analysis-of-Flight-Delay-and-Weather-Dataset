@@ -43,6 +43,7 @@ public class HBaseIngestionApp {
         }
 
         if(dataType.equals("FLIGHT")) {
+            System.out.printf("\ndatatype= FLIGHT");
             InputStream input = new FileInputStream(new File("/home/nayanambuj/StorageWarriors/flight.yml"));
             Yaml yaml = new Yaml(new Constructor(InputParams.class));
             inputParams = (InputParams) yaml.load(input);
