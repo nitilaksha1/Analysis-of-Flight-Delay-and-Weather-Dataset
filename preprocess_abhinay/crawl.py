@@ -60,22 +60,28 @@ def download(year):
 # This function cleans the data by only keeping the required mandatory columns
 def clean_data(src_file):
     with open(src_file, "rb") as source:
-        rdr = csv.reader(source)
+        #rdr = csv.reader(source)
+        rdr = csv.reader(x.replace('\0', '') for x in source)
         next(source)
 
         dst_file = src_file[:-4] + "n.csv"
         with open(dst_file,"wb") as result:
             wtr = csv.writer( result )
-            wtr.writerow(("STN_ID", "DATE", "TIME", "LAT", "LONG", "ELEVATION",
+            wtr.writerow(("STN_ID", "DATE", "YEAR", "MONTH", "DAY", "TIME", "LAT", "LONG", "ELEVATION",
                           "WND_SPD", "CIG", "VIS", "TMP", "DEW", "SLP"))
+
+
             for r in rdr:
                 wind_speed = r[10].split(",")[4]
 
-                date = (r[1].split("T")[0]).split("-")
-                time = (r[1].split("T")[1]).split(":")
+                temp = r[1].split("T")
+                date = temp[0].split("-")
 
-                wtr.writerow( (r[0], date[0]+date[1]+date[2], time[0]+time[1], r[3], r[4], r[5], wind_speed,
-                               r[11].split(",")[0], r[12].split(",")[0], r[13].split(",")[0],
+
+                time = temp[1][:-3]
+
+                wtr.writerow( (r[0], date[0]+date[1]+date[2], date[0], date[1], date[2], time, r[3], r[4],
+                               r[5], wind_speed, r[11].split(",")[0], r[12].split(",")[0], r[13].split(",")[0],
                                r[14].split(",")[0], r[15].split(",")[0]) )
 
 

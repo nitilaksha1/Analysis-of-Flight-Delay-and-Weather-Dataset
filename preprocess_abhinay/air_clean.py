@@ -40,9 +40,9 @@ for fn in os.listdir(par_dir):
                 fl_date = r[0].split('-')
                 date = fl_date[0] + fl_date[1] + fl_date[2]
 
-                dep_time = r[9]
+                dep_time = str(r[9][:-2]) + ":" + str(r[9][-2:])
                 if dep_time == '':
-                    dep_time = 9999
+                    dep_time = "99:99"
 
                 dep_delay = r[10]
                 if dep_delay == '':
