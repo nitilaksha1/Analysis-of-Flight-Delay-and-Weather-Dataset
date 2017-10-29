@@ -1,0 +1,4 @@
+-weather /Users/abhi/PycharmProjects/bigData/git_ws/storage-warriors-hbase/AirportTriangulation/src/main/resources/us_stn_geoloc.csv -flight /Users/abhi/PycharmProjects/bigData/git_ws/storage-warriors-hbase/AirportTriangulation/src/main/resources/airportsUS.csv -out /Users/abhi/PycharmProjects/bigData/git_ws/storage-warriors-hbase/AirportTriangulation/src/main/resources/airport_stn_mapping.csv
+
+72365023050,35.0419,-106.6155
+ABQ,35.0494,-106.625
