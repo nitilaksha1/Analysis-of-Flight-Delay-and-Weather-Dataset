@@ -58,7 +58,12 @@ for fn in os.listdir(par_dir):
                 if w_delay == '':
                     w_delay = 0
 
-                wtr.writerow( (date, r[1], r[2], r[4], r[5], lat, lon, dep_time + "T", dep_delay, dep_delay15,
+                fl_num = str(r[2])
+                while len(fl_num) < 5:
+                    fl_num = "0" + fl_num
+                fl_num = "T" + fl_num
+
+                wtr.writerow( (date, r[1], fl_num, r[4], r[5], lat, lon, dep_time + "T", dep_delay, dep_delay15,
                                r[15], r[17], w_delay) )
 
     os.remove(src_file)
