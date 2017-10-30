@@ -37,19 +37,24 @@ public class HBaseIngestionApp {
 
         InputParams inputParams = null;
         if(dataType.equals("WEATHER")) {
-            InputStream input = new FileInputStream(new File("/home/nayanambuj/StorageWarriors/weather.yml"));
+            InputStream input = new FileInputStream(new File("weather.yml"));
             Yaml yaml = new Yaml(new Constructor(InputParams.class));
             inputParams = (InputParams) yaml.load(input);
         }
 
         if(dataType.equals("FLIGHT")) {
-            System.out.printf("\ndatatype= FLIGHT");
-            InputStream input = new FileInputStream(new File("/home/nayanambuj/StorageWarriors/flight.yml"));
+            InputStream input = new FileInputStream(new File("flight.yml"));
             Yaml yaml = new Yaml(new Constructor(InputParams.class));
             inputParams = (InputParams) yaml.load(input);
         }
 
-        SparkConfiguration sparkConfiguration = new SparkConfiguration(appName);
+        if(dataType.equals("TEMPAUSTIN")) {
+            InputStream input = new FileInputStream(new File("tempaustin.yml"));
+            Yaml yaml = new Yaml(new Constructor(InputParams.class));
+            inputParams = (InputParams) yaml.load(input);
+        }
+
+SparkConfiguration sparkConfiguration = new SparkConfiguration(appName);
         JavaSparkContext javaSparkContext = sparkConfiguration.getJavaSparkContext();
         SparkSession sparkSession = sparkConfiguration.getSparkSession();
 

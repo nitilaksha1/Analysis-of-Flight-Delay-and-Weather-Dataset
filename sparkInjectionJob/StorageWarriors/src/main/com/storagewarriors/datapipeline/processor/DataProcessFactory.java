@@ -21,6 +21,8 @@ public class DataProcessFactory {
                 return new WeatherDataProcessor();
             case "FLIGHT":
                 return new FlightDataProcessor();
+            case "TEMPAUSTIN":
+                return new WeatherDataProcessor();
             default:
                 return null;
         }

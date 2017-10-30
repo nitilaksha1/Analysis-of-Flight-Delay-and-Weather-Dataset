@@ -54,13 +54,20 @@ public class WeatherDataProcessor implements DataProcessor, Serializable {
                         for(String k : rowKeys) {
                             key = key + data.getAs(k);
                         }
+                        key = key.replaceAll("T", "");
                         key = key.substring(0, key.length() - 1);
                         Put put = new Put(Bytes.toBytes(key));
 
                         for(HashMap<String,String> val : ROW_VALUES_B.value()) {
                             String[] cq = val.get("qualifier").toString().split(":");
-                            put.add(Bytes.toBytes(cq[0]), Bytes.toBytes(cq[1]),
-                                    Bytes.toBytes(data.getAs(val.get("value")).toString()));
+                            if(cq[1].equals("TIME")) {
+                            	put.add(Bytes.toBytes(cq[0]), Bytes.toBytes(cq[1]),
+                                        Bytes.toBytes(data.getAs(val.get("value")).toString().replaceAll("T", "")));
+                            } else {
+                            	put.add(Bytes.toBytes(cq[0]), Bytes.toBytes(cq[1]),
+                                        Bytes.toBytes(data.getAs(val.get("value")).toString()));
+                            }
+                            
                         }
 
                         return new Tuple2<ImmutableBytesWritable, Put>(
@@ -68,6 +75,7 @@ public class WeatherDataProcessor implements DataProcessor, Serializable {
                     }
                 });
 
+        System.out.printf("\nhbasePuts.partitions().size()= %d", hbasePuts.partitions().size());
         long countOfRows = hbasePuts.count();
 
         System.out.printf("\nNumber of rows to be inserted= %d", countOfRows);

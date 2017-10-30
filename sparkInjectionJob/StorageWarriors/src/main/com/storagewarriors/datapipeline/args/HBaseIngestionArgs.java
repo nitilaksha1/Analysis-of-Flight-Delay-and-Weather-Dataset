@@ -13,9 +13,12 @@ import lombok.Getter;
 public class HBaseIngestionArgs {
     private JCommander commander;
 
-    @Getter(AccessLevel.PUBLIC)
     @Parameter(names = "-dataType",
             required = true,
             description = "Different types of data - weather, flight")
     private String dataType;
+
+	public String getDataType() {
+		return dataType;
+	}
 }

@@ -16,10 +16,13 @@ import java.io.IOException;
 public class JobConfiguration {
     private Configuration configuration;
     private InputParams inputParams;
-    @Getter
     private Job job;
 
-    public JobConfiguration(Configuration configuration, InputParams inputParams) {
+    public Job getJob() {
+		return job;
+	}
+
+	public JobConfiguration(Configuration configuration, InputParams inputParams) {
         this.configuration = configuration;
         this.inputParams = inputParams;
         try {

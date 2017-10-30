@@ -1,7 +1,7 @@
-inputFile: /home/nayanambuj/Desktop/projectWork/ambujLearning/bigDataAnalytics/fall2017/projects/project1/Data/Flight/test/flightTest.csv
+inputFile: /media/rahul/9ACA1ECDCA1EA613/BigData/weather-flight correlation/EWRdata/flights/*.csv
 quorum: "127.0.0.1"
 port: "2181"
-tableName: flight_data
+tableName: flight_info
 rowKey: FL_DATE:DEP_TIME:AIRLINE_ID:FL_NUM
 rowValues:
     - qualifier   : flight_main:ORIGIN
@@ -22,4 +22,12 @@ rowValues:
       value       : DIVERTED
     - qualifier   : flight_main:WEATHER_DELAY
       value       : WEATHER_DELAY
+    - qualifier   : flight_main:YEAR
+      value       : YEAR
+    - qualifier   : flight_main:MONTH
+      value       : MONTH
+    - qualifier   : flight_main:DAY
+      value       : DAY
+    - qualifier   : flight_main:TIME
+      value       : DEP_TIME
 

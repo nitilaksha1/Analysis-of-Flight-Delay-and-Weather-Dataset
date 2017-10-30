@@ -17,10 +17,13 @@ public class DBConfiguration {
     /**
      * An instance of {@link Configuration} class.
      */
-    @Getter
     private Configuration configuration;
 
-    /**
+    public Configuration getConfiguration() {
+		return configuration;
+	}
+
+	/**
      * The input parameters for the file type.
      */
     private InputParams inputParams;

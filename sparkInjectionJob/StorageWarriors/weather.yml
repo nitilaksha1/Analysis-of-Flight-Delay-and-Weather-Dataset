@@ -1,8 +1,8 @@
-inputFile: /home/nayanambuj/Desktop/projectWork/ambujLearning/bigDataAnalytics/fall2017/projects/project1/Data/Weather/test/2.*
+inputFile: /media/rahul/9ACA1ECDCA1EA613/BigData/weather-flight correlation/EWRdata/weather_newark/*.csv
 quorum: "127.0.0.1"
 port: "2181"
-tableName: weather_data
-  rowKey: DATE:TIME:STN_ID
+tableName: weather_info
+rowKey: DATE:TIME:STN_ID
 rowValues  :
     - qualifier   : weather_main:LAT
       value       : LAT
@@ -22,4 +22,12 @@ rowValues  :
       value       : SLP
     - qualifier   : weather_main:WND_SPD
       value       : WND_SPD
-
+    - qualifier   : weather_main:YEAR
+      value       : YEAR
+    - qualifier   : weather_main:MONTH
+      value       : MONTH
+    - qualifier   : weather_main:DAY
+      value       : DAY
+    - qualifier   : weather_main:TIME
+      value       : TIME
+      

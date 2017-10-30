@@ -54,13 +54,19 @@ public class FlightDataProcessor implements DataProcessor, Serializable {
                         for(String k : rowKeys) {
                             key = key + data.getAs(k);
                         }
+                        key = key.replaceAll("T", "");
                         key = key.substring(0, key.length() - 1);
                         Put put = new Put(Bytes.toBytes(key));
 
                         for(HashMap<String,String> val : ROW_VALUES_B.value()) {
                             String[] cq = val.get("qualifier").toString().split(":");
-                            put.add(Bytes.toBytes(cq[0]), Bytes.toBytes(cq[1]),
+                            if(cq[1].equals("TIME")) {
+                            	put.add(Bytes.toBytes(cq[0]), Bytes.toBytes(cq[1]),
+                                        Bytes.toBytes(data.getAs(val.get("value")).toString().replaceAll("T", "")));
+                            } else{
+                            	put.add(Bytes.toBytes(cq[0]), Bytes.toBytes(cq[1]),
                                     Bytes.toBytes(data.getAs(val.get("value")).toString()));
+                            }
                         }
 
                         return new Tuple2<ImmutableBytesWritable, Put>(

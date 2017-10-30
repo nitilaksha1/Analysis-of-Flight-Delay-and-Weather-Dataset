@@ -1,0 +1,16 @@
+inputFile: /media/rahul/9ACA1ECDCA1EA613/BigData/weather/final/temperature_Austin/*.csv
+quorum: "127.0.0.1"
+port: "2181"
+tableName: temperature_austin
+rowKey: DATE:TIME:STN_ID
+rowValues  :
+    - qualifier   : temp_main:LAT
+      value       : LAT
+    - qualifier   : temp_main:LONG
+      value       : LONG
+    - qualifier   : temp_main:TMP
+      value       : TMP
+    - qualifier   : temp_main:YEAR
+      value       : YEAR
+    - qualifier   : temp_main:MONTH
+      value       : MONTH

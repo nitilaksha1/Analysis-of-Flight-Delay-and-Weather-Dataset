@@ -20,16 +20,22 @@ public class SparkConfiguration {
     /**
      * An instance of {@link JavaSparkContext} class.
      */
-    @Getter
     private JavaSparkContext javaSparkContext;
 
     /**
      * An instance of {@link SparkSession} class.
      */
-    @Getter
     private SparkSession sparkSession;
 
-    /**
+    public JavaSparkContext getJavaSparkContext() {
+		return javaSparkContext;
+	}
+
+	public SparkSession getSparkSession() {
+		return sparkSession;
+	}
+
+	/**
      * Application name.
      */
     private String appName;
