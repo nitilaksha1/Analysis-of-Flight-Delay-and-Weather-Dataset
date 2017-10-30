@@ -30,35 +30,35 @@ public class AirportTriangulationApp {
 
         while((record = weatherReader.readNext()) != null) {
             long stationId = Long.parseLong(record[0]);
-            double lat = Double.parseDouble(record[3]);
-            double lon = Double.parseDouble(record[4]);
+            double lat = Double.parseDouble(record[1]);
+            double lon = Double.parseDouble(record[2]);
             weatherList.add(new Weather(stationId, lat, lon));
         }
 
         record = null;
         while((record = flightReader.readNext()) != null) {
-            int id = Integer.parseInt(record[0]);
-            String code = record[1];
-            double lat = Double.parseDouble(record[2]);
-            double lon = Double.parseDouble(record[3]);
-            flightList.add(new Flight(id, code, lat, lon));
+            String code = record[0];
+            double lat = Double.parseDouble(record[1]);
+            double lon = Double.parseDouble(record[2]);
+            flightList.add(new Flight(code, lat, lon));
         }
 
         for(Flight flight : flightList) {
             double min = Double.MAX_VALUE;
             long weatherStationId = 0;
             for(int i = 0; i < weatherList.size(); i++) {
-                double dist = distance(flight.getLat(),
-                        weatherList.get(i).getLat(),
+                double dist = distanceInKmBetweenEarthCoordinates(flight.getLat(),
                         flight.getLon(),
-                        weatherList.get(i).getLon(),
-                        0,0);
+                        weatherList.get(i).getLat(),
+                        weatherList.get(i).getLon()
+                        );
                 if(dist < min && dist < 51) {
                     min = dist;
                     weatherStationId = weatherList.get(i).getStationId();
                 }
             }
             flight.setNearestWeatherStationId(weatherStationId);
+            flight.setDistanceToNearestWeatherStation(min);
         }
 
         FileWriter fileWriter = new FileWriter(outputFile);
@@ -67,23 +67,34 @@ public class AirportTriangulationApp {
 
         List<String[]> records = new ArrayList<String[]>();
         while(iterator.hasNext()) {
-            records.add(new String[] {iterator.next().getCode(), ""+iterator.next().getNearestWeatherStationId()});
+            Flight flight = iterator.next();
+            if(flight.getDistanceToNearestWeatherStation() != Double.MAX_VALUE) {
+                String distance = String.format("%10.2f", flight.getDistanceToNearestWeatherStation());
+                records.add(new String[] {flight.getCode(),
+                        ""+flight.getNearestWeatherStationId(),
+                        distance.trim()});
+            }
         }
         csvWriter.writeAll(records);
         csvWriter.close();
     }
 
-    public static double distance(double lat1, double lat2, double lon1, double lon2, double el1, double el2) {
-        final int R = 6371;
-        double latDistance = Math.toRadians(lat2 - lat1);
-        double lonDistance = Math.toRadians(lon2 - lon1);
-        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
-                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
-                * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        double distance = R * c * 1000;
-        double height = el1 - el2;
-        distance = Math.pow(distance, 2) + Math.pow(height, 2);
-        return Math.sqrt(distance);
+    public static double degreesToRadians(double degrees) {
+        return degrees * Math.PI / 180;
+    }
+
+    public static double distanceInKmBetweenEarthCoordinates(double lat1, double lon1, double lat2, double lon2) {
+        double earthRadiusKm = 6371;
+
+        double dLat = degreesToRadians(lat2-lat1);
+        double dLon = degreesToRadians(lon2-lon1);
+
+        lat1 = degreesToRadians(lat1);
+        lat2 = degreesToRadians(lat2);
+
+        double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        return earthRadiusKm * c;
     }
 }

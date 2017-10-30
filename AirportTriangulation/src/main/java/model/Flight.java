@@ -1,14 +1,13 @@
 package model;
 
 public class Flight {
-    private int id;
     private String code;
     private double lat;
     private double lon;
     private long nearestWeatherStationId;
+    private double distanceToNearestWeatherStation;
 
-    public Flight(int id, String code, double lat, double lon) {
-        this.id = id;
+    public Flight(String code, double lat, double lon) {
         this.code = code;
         this.lat = lat;
         this.lon = lon;
@@ -18,9 +17,8 @@ public class Flight {
         this.nearestWeatherStationId = nearestWeatherStationId;
     }
 
-    public int getId() {
-
-        return id;
+    public void setDistanceToNearestWeatherStation(double distanceToNearestWeatherStation) {
+        this.distanceToNearestWeatherStation = distanceToNearestWeatherStation;
     }
 
     public String getCode() {
@@ -37,5 +35,9 @@ public class Flight {
 
     public long getNearestWeatherStationId() {
         return nearestWeatherStationId;
+    }
+
+    public double getDistanceToNearestWeatherStation() {
+        return distanceToNearestWeatherStation;
     }
 }

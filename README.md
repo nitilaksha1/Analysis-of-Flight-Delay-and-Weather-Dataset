@@ -1,12 +1,23 @@
 # storage-warriors-hbase
 Weather-Flight Big Data Project using HBase
 
+## Team
+* Abhinay Ambuj Niti Rahul
+
 ## Status
-* Data gathering (In Progess)
-    * Flight data (1990)
-    * Weather data (1990)
-* Preprocessing scripts (Complete)
-    * Script 1: Extract weather data for US geography
-    * Script 2: Extract latitude, longitude, and other information for each US weather station
-* Java code (In Progress)
-    * Code to read a CSV file with locations and output the location's co-ordiantes
+* Data gathering (complete)
+    * Flight data
+    * Weather data 
+* Preprocessing scripts (complete)
+    * Web scraper to download data from NOAA website.
+    * Script to extract weather data for US geography.
+    * Script to extract latitude, longitude, and other information for each US weather station
+    * Drop columns which are not required from weather/flight datasets.
+    * Script to prepare the list of all US airports along with latitude/longitude.
+* Spark ingestion job (complete)
+    * Spark job to read multiple data files concurrently and load them to HBase.
+* Java code to find the weather station nearest to an airport (complete)
+* Machine learning code for predicting flight delays (complete)
+* Queries (almost done)
+* Unit tests (in progress)
+* Correlate flight and weather data (in progress)
