@@ -79,9 +79,9 @@ def flightPredictor():
     result = cross_val_score(model, X, Y, cv=kfold, scoring='accuracy')
     print(result.mean())
 
-    #logisticRegression("RandomForest", "", num_split, train_percent, X, Y)
+    #classifier("RandomForest", "", num_split, train_percent, X, Y)
 
-def logisticRegression(method_name, filename, num_split, train_percent, X, Y):    
+def classifier(method_name, filename, num_split, train_percent, X, Y):    
     data_split_and_predict(method_name, "Weather-FlightData", X, Y, train_percent, num_split)
 
 
