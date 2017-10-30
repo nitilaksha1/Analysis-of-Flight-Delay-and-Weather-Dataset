@@ -3,7 +3,40 @@ from sklearn.cross_validation import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import RandomForestRegressor
+from sklearn.preprocessing import Imputer
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+from sklearn.model_selection import KFold
+from sklearn.model_selection import cross_val_score
+from pandas import read_csv
 import sys
+
+def checkMissingValuesForField(dataset, metric, columnnumber):
+    print(dataset.loc[:,columnnumber].describe())
+
+    if metric == "wind":
+        print((dataset.loc[:,columnnumber] == 9999).sum())
+        (dataset.loc[:,:]).replace(9999, np.NaN, inplace=True)
+
+    if metric == "cig":
+        print((dataset.loc[:,columnnumber] == 99999).sum())
+        (dataset.loc[:,:]).replace(99999, np.NaN, inplace=True)
+
+    if metric == "visibility":        
+        print((dataset.loc[:,columnnumber] == 999999).sum())
+        (dataset.loc[:,:]).replace(999999, np.NaN, inplace=True)
+
+    if metric == "airtemperature":        
+        print((dataset.loc[:,columnnumber] == 9999).sum())
+        (dataset.loc[:,:]).replace(9999, np.NaN, inplace=True)
+
+    if metric == "dew":        
+        print((dataset.loc[:,columnnumber] == 9999).sum())
+        (dataset.loc[:,:]).replace(9999, np.NaN, inplace=True)
+
+    if metric == "slp":        
+        print((dataset.loc[:,columnnumber] == 99999).sum())
+        (dataset.loc[:,:]).replace(99999, np.NaN, inplace=True)
+
 
 def flightPredictor():
     # Getting the command line parameters
@@ -13,14 +46,42 @@ def flightPredictor():
     
     # load data from csv files
     train = np.loadtxt(filename, delimiter=',')
+    dataset = read_csv(filename, header=None)
 
-    # use deep copy here to make cvxopt happy
-    X = train[:, 1:].copy()
-    Y = train[:, 0].copy()
+    print("DATASET BEFORE REPLACING OF MISSING VALUES")
+    print(dataset.describe())
+    
+    '''checkMissingValuesForField(dataset, "wind", )
+    checkMissingValuesForField(dataset, "cig", )
+    checkMissingValuesForField(dataset, "visibility", )
+    checkMissingValuesForField(dataset, "dew", )
+    checkMissingValuesForField(dataset, "slp", )'''
 
-    logisticRegression("RandomForest", "", num_split, train_percent, X, Y)
+    values = dataset.values
 
-def logisticRegression(method_name, filename, num_split, train_percent, X, Y):    
+    print("DATASET WITH NAN VALUES")
+
+    imputer = Imputer()
+    transformed_values = imputer.fit_transform(values)
+    
+    # count the number of NaN values in each column
+    print(np.isnan(transformed_values).sum())
+
+    X = transformed_values[:,1:]
+    Y = transformed_values[:, 0]
+
+    '''print(X.shape)
+    print(Y.shape)'''
+
+    # testing if missing values are removed
+    model = LinearDiscriminantAnalysis()
+    kfold = KFold(n_splits=3, random_state=7)
+    result = cross_val_score(model, X, Y, cv=kfold, scoring='accuracy')
+    print(result.mean())
+
+    #classifier("RandomForest", "", num_split, train_percent, X, Y)
+
+def classifier(method_name, filename, num_split, train_percent, X, Y):    
     data_split_and_predict(method_name, "Weather-FlightData", X, Y, train_percent, num_split)
 
 
