@@ -10,32 +10,27 @@ from sklearn.model_selection import cross_val_score
 from pandas import read_csv
 import sys
 
+# Function to check the features for missing values and replace them with Nan
 def checkMissingValuesForField(dataset, metric, columnnumber):
     print(dataset.loc[:,columnnumber].describe())
 
     if metric == "wind":
-        print((dataset.loc[:,columnnumber] == 9999).sum())
-        (dataset.loc[:,:]).replace(9999, np.NaN, inplace=True)
+        (dataset.loc[:,columnnumber]).replace(9999, np.NaN, inplace=True)
 
     if metric == "cig":
-        print((dataset.loc[:,columnnumber] == 99999).sum())
-        (dataset.loc[:,:]).replace(99999, np.NaN, inplace=True)
+        (dataset.loc[:,columnnumber]).replace(99999, np.NaN, inplace=True)
 
     if metric == "visibility":        
-        print((dataset.loc[:,columnnumber] == 999999).sum())
-        (dataset.loc[:,:]).replace(999999, np.NaN, inplace=True)
+        (dataset.loc[:,columnnumber]).replace(999999, np.NaN, inplace=True)
 
     if metric == "airtemperature":        
-        print((dataset.loc[:,columnnumber] == 9999).sum())
-        (dataset.loc[:,:]).replace(9999, np.NaN, inplace=True)
+        (dataset.loc[:,columnnumber]).replace(9999, np.NaN, inplace=True)
 
     if metric == "dew":        
-        print((dataset.loc[:,columnnumber] == 9999).sum())
-        (dataset.loc[:,:]).replace(9999, np.NaN, inplace=True)
+        (dataset.loc[:,columnnumber]).replace(9999, np.NaN, inplace=True)
 
     if metric == "slp":        
-        print((dataset.loc[:,columnnumber] == 99999).sum())
-        (dataset.loc[:,:]).replace(99999, np.NaN, inplace=True)
+        (dataset.loc[:,columnnumber]).replace(99999, np.NaN, inplace=True)
 
 
 def flightPredictor():
@@ -45,17 +40,18 @@ def flightPredictor():
     filename = sys.argv[3]
     
     # load data from csv files
-    train = np.loadtxt(filename, delimiter=',')
+    #train = np.loadtxt(filename, delimiter=',')
     dataset = read_csv(filename, header=None)
 
-    print("DATASET BEFORE REPLACING OF MISSING VALUES")
+    #Checking data statistics for analysis
+    print("DATASET STATISTICS")
     print(dataset.describe())
     
-    '''checkMissingValuesForField(dataset, "wind", )
+    checkMissingValuesForField(dataset, "wind", )
     checkMissingValuesForField(dataset, "cig", )
     checkMissingValuesForField(dataset, "visibility", )
     checkMissingValuesForField(dataset, "dew", )
-    checkMissingValuesForField(dataset, "slp", )'''
+    checkMissingValuesForField(dataset, "slp", )
 
     values = dataset.values
 
@@ -70,8 +66,8 @@ def flightPredictor():
     X = transformed_values[:,1:]
     Y = transformed_values[:, 0]
 
-    '''print(X.shape)
-    print(Y.shape)'''
+    print(X.shape)
+    print(Y.shape)
 
     # testing if missing values are removed
     model = LinearDiscriminantAnalysis()
@@ -79,12 +75,14 @@ def flightPredictor():
     result = cross_val_score(model, X, Y, cv=kfold, scoring='accuracy')
     print(result.mean())
 
-    #classifier("RandomForest", "", num_split, train_percent, X, Y)
+    classifier("RandomForest", "", num_split, train_percent, X, Y)
 
+# This function starts the classification process which follows the missing data handling
 def classifier(method_name, filename, num_split, train_percent, X, Y):    
     data_split_and_predict(method_name, "Weather-FlightData", X, Y, train_percent, num_split)
 
 
+# This function calculates the test set error
 def calc_error(predictedY, y_test):
     k = 0
     errors = 0
@@ -98,7 +96,7 @@ def calc_error(predictedY, y_test):
     errorrate = float(errors) / len(predictedY)
     return errorrate
 
-
+# This function trains the model using 80:20 trainsplit and predicts based on the method specified
 def data_split_and_predict (method_name, dataset_name, datasetX, datasetY, train_percent, num_split):
     i = 0
     mean_all_runs = list()
@@ -124,23 +122,20 @@ def data_split_and_predict (method_name, dataset_name, datasetX, datasetY, train
             miniXslice = X_train[start_index:end_index, 0:]
             miniYslice = y_train[start_index:end_index]
 
-
             if method_name == "LogisticRegression":
-                #Small Data Setting
-                myLR = LogisticRegression(penalty='l2')
-                myLR.fit(miniXslice, miniYslice)
-                predictedY = myLR.predict(X_test)
 
-                #Large Dataset setting
-                # Standarize features
-                '''scaler = StandardScaler()
+                #Large Dataset setting for LR and also standardizing the features
+                scaler = StandardScaler()
                 miniXslice = scaler.fit_transform(miniXslice)
-                # Create logistic regression object using sag solver
+
+                # Create logistic regression object using stochastic gradient descent solver
                 myLR = LogisticRegression(random_state=0, solver='sag')
+
                 # Train model
                 myLR.fit(miniXslice, miniYslice)
+
                 #predict
-                predictedY = myLR.predict(X_test)'''
+                predictedY = myLR.predict(X_test)
 
             if method_name == "RandomForest":
                 rf = RandomForestRegressor()

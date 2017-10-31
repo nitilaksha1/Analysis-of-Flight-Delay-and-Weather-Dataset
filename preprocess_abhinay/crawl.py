@@ -1,7 +1,7 @@
 # Author: Abhinay Agrawal
 
-#from BeautifulSoup import BeautifulSoup as bs
-from bs4 import BeautifulSoup as bs
+from BeautifulSoup import BeautifulSoup as bs
+#from bs4 import BeautifulSoup as bs
 from urllib2 import urlopen, HTTPError, URLError
 import os, sys, tarfile, time, errno, csv, shutil
 

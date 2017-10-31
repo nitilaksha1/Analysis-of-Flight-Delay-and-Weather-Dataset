@@ -17,7 +17,7 @@ for fn in os.listdir(par_dir):
     src_file = os.path.join(par_dir + fn)
     print src_file
     with open(src_file, "rb") as file:
-        rdr = csv.reader(file)
+        rdr = csv.reader(x.replace('\0', '') for x in file)
         next(file)
 
         dst_file = src_file[:-4] + "n.csv"
@@ -55,7 +55,9 @@ for fn in os.listdir(par_dir):
                     dep_delay15 = 1
 
                 w_delay = r[18]
-                if w_delay == '':
+                if w_delay == '' and r[16] != "B":
+                    w_delay = 1
+                else:
                     w_delay = 0
 
                 fl_num = str(r[2])
