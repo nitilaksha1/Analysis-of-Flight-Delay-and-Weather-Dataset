@@ -1,7 +1,6 @@
-# storage-warriors-hbase
-Analysis of Flight Delays and Weather Datasets using NoSQL
+# Analysis of Flight Delays and Weather Datasets using NoSQL
 
-## Team
+## Team Storage Warriors
 * Abhinay Agrawal
 * Ambuj Nayan
 * Niti Halakatti
