@@ -15,11 +15,14 @@ Analysis of Flight Delays and Weather Datasets using NoSQL
 ## Tech Stack
 * Python
 * Java
+* SQL
 * Hadoop
 * HBase
 * Spark
 * Apache Phoenix
 * Apache Zeppelin
+* Scikit-learn
+* Pandas
 
 ## Criteria For Deciding Tech Stack
 * The respective sizes of weather and flight datasets were 750 GB and 225 GB approximately. 
@@ -95,20 +98,31 @@ Find out the correlation between flight and weather data. Note that there is a s
 ### Business Question 12
 Use the correlation between weather and flight data to predict if a flight will be delayed based on forecasted weather metrics.
 
-## Status
-* Data gathering (complete)
-    * Flight data
-    * Weather data 
-* Preprocessing scripts (complete)
-    * Web scraper to download data from NOAA website.
-    * Script to extract weather data for US geography.
-    * Script to extract latitude, longitude, and other information for each US weather station
-    * Drop columns which are not required from weather/flight datasets.
-    * Script to prepare the list of all US airports along with latitude/longitude.
-* Spark ingestion job (complete)
-    * Spark job to read multiple data files concurrently and load them to HBase.
-* Java code to find the weather station nearest to an airport (complete)
-* Machine learning code for predicting flight delays (complete)
-* Queries (almost done)
-* Unit tests (in progress)
-* Correlate flight and weather data (in progress)
+## Challenges Faced
+* The data size being too large (750GB), saving the data on local machine or on any free cloud service was not possible. Hence, we had to take a decision to download limited data.
+* Weather data was organized in a good way but few of the information need to answer the business questions were not available directly. For example, the country name of the weather station as not mentioned
+* Flight delay data did not contain the geolocation information which we had to search online and extract, connect the relevant info to our data
+* Flight delay data has a lot of missing values which we had to take care of. Also, during querying of the tables from HBase, we had to keep in mind that data has missing values.
+* Choosing the right tool to use for querying and visualization took a lot of time and effort. In the end, we decided to go with Apache Phoenix and Apache Zeppelin to do this work. These tools also had a lot of shortcomings like:
+   * Although they provide SQL interface to NoSQL databases not all commands are supported
+   * Support for joins are limited
+   * There are issues when the already created tables in HBase are imported into Phoenix. It is unable to read the metadata info for the tables from HBase and hence assumes every field to be a byte
+   
+## Future Work
+* The primary requirement is to scale our project to handle the needs of big data
+   * This can be done by distributing our database over a set of servers in a cluster
+   * Setting up Hadoop cluster for operation in distributed environment
+* Using a custom solution to visualize the HBase data to answer queries
+* The Apache Phoenix solution used in this project is not scalable due to its SQL structure and strict constraint to maintain the table in a format to query the data
+* A custom query application would entail the following:
+   * JavaScript Front End Framework (like AngularJS) for user query
+   * REST API’s to interact with HBase
+   * D3 charts to visualize the data returned from the queries
+   * Due to the NoSQL nature of the database it very time consuming to answer some queries as it requires a full table scan in HBase due to the field not being a row key. This required the use of secondary index on the fields that are frequently queried. 
+   * The usage of a secondary index on a field is non-trivial in HBase since it requires a large amount of coding to be performed by the developer including but not handling the update of the secondary index
+* The prediction of a flight delay at an airport given the weather conditions can be leveraged in a sample application which needs this kind of analytics
+* From a software engineering perspective, the following aspects need to be added to promote code maintainability:
+   * Unit Testing
+   * Integration Testing
+   * System Testing
+   * Performance Testing
