@@ -50,7 +50,50 @@ https://phoenix.apache.org/download.html
 https://zeppelin.apache.org/docs/0.7.3/install/install.html
 * Configure Zeppelin as a thin client and used a JDBC connection to connect it to Apache Phoenix
 
+## Requirement Analysis
+* The main requirement of this project is to provide the users with an easy interface to query and analyze large datasets.
+* Users should be able to run analytical query and visualize flight delay and weather data.
+* The application should also provide an automated mechanism for data ingestion
+* The system should be able to scale because these datasets will witness exponential growth. Though the current requirement is to support historical analysis of weather and flight data, the system design should be flexible enough to support transactional analysis in future
+* A nice to have feature is to help users find correlation between weather and flight data. This enables the users to predict flight delays based on forecasted weather information by using machine learning algorithm
 
+## Business Questions
+
+### Business Question 1
+For a given weather station and year, report the highest observed temperatures (degree centigrade) by month. Provide a mechanism to visualize this information.
+
+### Business Question 2
+For a given weather station and year, report the average observed temperatures (degree centigrade) by month. Provide a mechanism to visualize this information.
+
+### Business Question 3
+For a given weather station and year, report the lowest observed temperatures (degree centigrade) by month. Provide a mechanism to visualize this information.
+
+### Business Question 4
+For a given weather station and month, show the variation in mean temperature (degree centigrade) over a period of 20 years. Provide a mechanism to visualize this information.
+
+### Business Question 5
+Find the relation between temperature and elevation (altitude). Ideally as elevation increases, temperature decreases, and the rate of decrease is 6.5 degree centigrade for each 1 km of altitude change. Validate if the observed data provides support for this trend along with providing a mechanism for visualizing this information.
+
+### Business Question 6
+Report the count of those weather stations which have witnessed Hurricane force winds. Beaufort wind force scale is an empirical measure that relates wind speed to observed conditions at sea or on land. Hurricane force winds are categorized as those which have wind speeds greater than equal to 118 km/hr.
+
+### Business Question 7
+Report the count of those weather stations which have very low visibility. Areas with visibility of less than 100 metres (330 ft.) are usually reported as very low visibility areas.
+
+### Business Question 8
+Find the maximum observed flight delay (in minutes) in the entire dataset.
+
+### Business Question 9
+Find the average observed flight delay (in minutes) in the entire dataset.
+
+### Business Question 10
+Report the number of instances where flights have been delayed by more than 15 minutes.
+
+### Business Question 11
+Find out the correlation between flight and weather data. Note that there is a spatiotemporal relation between weather and flight data.
+
+### Business Question 12
+Use the correlation between weather and flight data to predict if a flight will be delayed based on forecasted weather metrics.
 
 ## Status
 * Data gathering (complete)
