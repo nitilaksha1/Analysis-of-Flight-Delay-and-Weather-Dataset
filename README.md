@@ -2,7 +2,7 @@
 Weather-Flight Big Data Project using HBase
 
 ## Team
-* Abhinay Ambuj Niti Rahul
+* Abhinay Agrawal<br /> Ambuj Nayan<br /> Niti Halakatti<br /> Rahul Sharma<br />
 
 ## Status
 * Data gathering (complete)
