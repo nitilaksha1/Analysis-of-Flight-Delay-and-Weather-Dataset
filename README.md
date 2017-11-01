@@ -30,6 +30,26 @@ Analysis of Flight Delays and Weather Datasets using NoSQL
 * Phoenix is an open source SQL skin for HBase and saves us the hassle of writing application code to query data using HBase APIs
 * Apache Zeppelin is a web-based notebook application that enables data-driven, interactive data analytics, and collaboration with SQL
 
+## Infrastructure Setup
+
+### Hadoop Setup
+* Installation of Hadoop involves downloading the distribution from Apache and modifying the configuration files as mentioned in the following link : <br />
+http://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-common/SingleCluster.html#Pseudo-Distributed_Operation
+* HBase from Apache can be downloaded and configured as per the guidelines provided in the following link:<br />
+https://hbase.apache.org/book.html#quickstart
+* Upon the completion of installation and configuration, the services related to DFS, YARN, and HBASE can be started
+
+### Apache Phoenix Setup
+* The installation can be downloaded at the following link:<br />
+https://phoenix.apache.org/download.html
+* Copy the phoenix server jar into HBase lib directory.
+* Restart HBase and after successful restart, we start the query server
+
+### Apache Zeppelin Setup
+* The installation and setup can be done as per the instruction in the following link:<br />
+https://zeppelin.apache.org/docs/0.7.3/install/install.html
+* Configure Zeppelin as a thin client and used a JDBC connection to connect it to Apache Phoenix
+
 
 
 ## Status
